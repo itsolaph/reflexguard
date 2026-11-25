@@ -69,12 +69,21 @@ def call(rpc, to, sig, *args, sender=None):
     return cast("call", "--rpc-url", rpc, *extra, to, sig, *args)
 
 
-def logs(rpc, address, signature, from_block):
-    """Decoded-by-hand logs: list of dicts with block, tx, index, topics, and `words` (32-byte data words)."""
-    out = cast("logs", "--rpc-url", rpc, "--address", address, "--from-block", from_block, "--to-block", "latest",
-               "--json", signature)
+def logs(rpc, address, signature, from_block, chunk=180):
+    """Decoded-by-hand logs, chunked to stay within public RPC eth_getLogs block-range limits."""
+    tip = block_number(rpc)
+    if from_block > tip:
+        return []
+    raw = []
+    cur = from_block
+    while cur <= tip:
+        end = min(cur + chunk - 1, tip)
+        out = cast("logs", "--rpc-url", rpc, "--address", address, "--from-block", cur, "--to-block", end,
+                   "--json", signature)
+        raw.extend(json.loads(out or "[]"))
+        cur = end + 1
     rows = []
-    for log in json.loads(out or "[]"):
+    for log in raw:
         data = log["data"][2:]
         rows.append({
             "block": to_int(log["blockNumber"]),

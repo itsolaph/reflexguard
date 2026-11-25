@@ -64,7 +64,7 @@ contract ReflexGuardRC is AbstractReactive {
     uint256 internal constant N_HIDDEN = 8;
 
     /// @notice Gas limit requested for the destination-chain callback.
-    uint64 public constant CALLBACK_GAS = 200_000;
+    uint64 public constant CALLBACK_GAS = 500_000;
     /// @notice Lowest threshold the owner may set.
     uint256 public constant MIN_THRESHOLD = 3000;
     /// @notice Highest threshold the owner may set.

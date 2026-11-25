@@ -13,7 +13,7 @@ import {MockToken} from "../src/origin/MockToken.sol";
 ///         Environment: PRIVATE_KEY, TOKEN0, TOKEN1, RC, POOL (expected address), POOL_FUND (wei kept in the
 ///         pool to pay callback fees, default 0.02 ether), CALLBACK_PROXY (default: Base Sepolia proxy).
 contract DeployPool is Script {
-    address internal constant BASE_SEPOLIA_PROXY = 0xa6eA49Ed671B8a4dfCDd34E36b7a75Ac79B8A5a6;
+    address internal constant BASE_SEPOLIA_PROXY = 0x476F44b11F5C942c58f4c8E3d0300E5710743585;
 
     function run() external {
         uint256 key = vm.envUint("PRIVATE_KEY");
